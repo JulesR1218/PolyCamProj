@@ -4,6 +4,31 @@
   <meta charset="UTF-8">
   <title>02 — Displaying a .glb Mesh</title>
   <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
+  <script>
+    AFRAME.registerComponent('light-toggle', {
+      schema: {
+        target: { type: 'selector' }
+      },
+
+      init() {
+        this.lightsOn = true;
+        this.el.addEventListener('click', () => {
+          this.lightsOn = !this.lightsOn;
+
+          this.data.target.object3D.traverse(object => {
+            if (object.isLight) {
+              object.visible = this.lightsOn;
+            }
+          });
+
+          this.el.setAttribute(
+            'color',
+            this.lightsOn ? '#FFD700' : '#555555'
+          );
+        });
+      }
+    });
+  </script>
 </head>
 <body>
 
@@ -44,7 +69,38 @@
     <a-entity light="type: directional; color: #FFF; intensity: 2Sw" position="2 3 1"></a-entity>
     <a-sky color="#202025"></a-sky>
 
-    <a-entity camera look-controls wasd-controls position="0 1.6 2"></a-entity>
+    <a-entity id="room-lights">
+      <a-entity
+        light="type: ambient; color: #BBB; intensity: 0.7">
+      </a-entity>
+
+      <a-entity
+        light="type: directional; color: #FFF; intensity: 2"
+        position="-1 3 1">
+      </a-entity>
+
+      <a-entity
+        light="type: directional; color: #FFF; intensity: 2"
+        position="2 3 1">
+      </a-entity>
+    </a-entity>
+
+    <a-cylinder
+      light-toggle="target: #room-lights"
+      position="-0.6 0.9 -6.6"
+      radius="0.1"
+      height="0.2"
+      color="#FFD700"
+      class="clickable">
+    </a-cylinder>
+
+    <a-entity
+      camera
+      look-controls
+      wasd-controls
+      position="0 1.6 2">
+      <a-cursor raycaster="objects: .clickable"></a-cursor>
+    </a-entity>
 
   </a-scene>
 
