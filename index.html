@@ -43,6 +43,7 @@
     -->
     <a-assets>
       <a-asset-item id="room-model" src="PolyCamProj.glb"></a-asset-item>
+      <audio id="slab-audio" src="audio.mp3" preload="auto"></audio>
     </a-assets>
 
     <!--
@@ -57,12 +58,13 @@
     -->
     <a-entity
       gltf-model="#room-model"
-      position="0 0 -3"
-      scale="1 1 1"
+      position="3 0 2"
+      scale="1.5 1.5 1.5"
       rotation="0 180 0">
     </a-entity>
 
     <!-- Ground + lighting so the model has something to sit on and read as 3D. -->
+    <a-plane rotation="-90 0 0" width="20" height="20" color="#445"></a-plane>
     <a-plane rotation="-90 0 0" width="20" height="20" color="#445"></a-plane>
     <a-entity light="type: ambient; color: #BBB"; intensity: 27w></a-entity>
     <a-entity light="type: directional; color: #FFF; intensity: 2Sw" position="-1 3 1"></a-entity>
@@ -76,7 +78,7 @@
 
       <a-entity
         light="type: directional; color: #FFF; intensity: 2"
-        position="-1 3 1">
+        position="2 3 1">
       </a-entity>
 
       <a-entity
@@ -87,18 +89,29 @@
 
     <a-cylinder
       light-toggle="target: #room-lights"
-      position="-0.6 0.9 -6.6"
+      position="2.1 1.4 -3.3"
       radius="0.1"
       height="0.2"
       color="#FFD700"
       class="clickable">
     </a-cylinder>
 
+    <a-box
+      id="audio-slab"
+      position="0 0.35 -1"
+      width="1.8"
+      height="0.25"
+      depth="1.8"
+      color="#D95D39"
+      class="clickable"
+      sound="src: #slab-audio; on: click; volume: 1">
+    </a-box>
+
     <a-entity
       camera
       look-controls
-      wasd-controls
-      position="0 1.6 2">
+      wasd-controls="acceleration:10"
+      position="1 1.6 2">
       <a-cursor raycaster="objects: .clickable"></a-cursor>
     </a-entity>
 
